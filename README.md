@@ -7,3 +7,5 @@ Obviously, it is possible to send messages with Bukkit. But for those who are ti
 
 ## Language API
 Tired of taking care of those language files and translating them? Although this API won't take over the translation part for you, it takes over the management over these files and already supports +100 languages! All you need to do is create the english file and the API automatically adds any newly created key-value pairs to the present files! Additionally, the API checks your data folder on each start-up for newly created language files and automatically uses them if configured so - that means your end-users can take over the translation part for themselves and translate your plugin to as many languages as we support!
+
+On top of that, although not very precise and not recommended as a full replacement for translators, the API can utilize google's translator API and translate your english language file to all of the supported languages. You can use that as a template for your translators.
