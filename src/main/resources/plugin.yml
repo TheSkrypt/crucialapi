@@ -1,0 +1,5 @@
+name: CrucialAPI
+version: 1.0
+author: Lukas Frey
+website: www.lukasfrey.net
+main: net.skrypt.spigot.crucialapi.CrucialAPI
