@@ -25,11 +25,47 @@
 package net.skrypt.spigot.crucialapi.api.gui;
 
 /**
- * Abstract Entity GUI class containing many methods to use and modify Bukkit Inventories as well as built-in event
- * listeners.
+ * A collection of GUI related methods.
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
-public class EntityGUI extends GUI {}
+public interface IGUI {
+
+	/**
+	 * Called each time the user opens a GUI.
+	 *
+	 * @param content
+	 * 		Current content of the GUI.
+	 *
+	 * @author Lukas Frey
+	 * @since 1:0
+	 */
+	void setContent(Content content);
+
+	/**
+	 * Called each time the user opens a GUI.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	void onOpen();
+
+	/**
+	 * Called each time the user clicks while the GUI is opened (Can also be outside of the GUI.).
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	void onClick();
+
+	/**
+	 * Called each time the user closes a GUI.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	void onClose();
+
+}

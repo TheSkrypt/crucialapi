@@ -24,35 +24,82 @@
 
 package net.skrypt.spigot.crucialapi.api.gui;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.swing.text.View;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
- * Abstract GUI class containing many methods to use and modify Bukkit Inventories as well as built-in event listeners.
+ * A collection of GUI related methods.
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
-public abstract class GUI {
+public abstract class GUI implements IGUI {
 
-	/** Holds a reference to the plugin the GUI was created by. */
+	/** A collection of UUID<->GUI key-pairs of players with an open GUI. */
+	protected static HashMap<UUID, GUI> players = new HashMap<>();
+
+	/** Stores a reference to the JavaPlugin instance this GUI was made by. */
 	private JavaPlugin plugin;
-	/** Holds a reference to Bukkit's Inventory instance. */
+	/** Stores the size (number of rows) of the inventory. Allowed values are 1-6. */
+	private int size;
+
+	/** Stores a reference to the Bukkit's Inventory instance. */
 	private Inventory inventory;
 
+	/** Stores a reference to the content class. */
+	private Content content;
+
 	/**
-	 * Creates a new instance of this class.
+	 * Instantiates and sets up the GUI.
 	 *
-	 * @param plugin
-	 * 		A reference to plugin's main class this GUI should belong to.
+	 * @param plugin A reference to the JavaPlugin this GUI belongs to.
+	 * @param size The size (number of rows) the GUI should have.
 	 *
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	protected GUI(JavaPlugin plugin) {
+	protected GUI(JavaPlugin plugin, int size) {
 		this.plugin = plugin;
+		this.size = size;
+
+		this.inventory = Bukkit.createInventory(null, this.size * 9);
+		this.content = new Content(this.size);
 	}
 
+	/**
+	 * Opens the GUI to the specified player.
+	 *
+	 * @param player
+	 * 		Reference to a Bukkit Player.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public void open(Player player) {
+		player.openInventory(inventory);
+
+		players.put(player.getUniqueId(), this);
+
+		ViewHistory.add(player.getUniqueId(), this);
+
+		this.setContent(this.content);
+
+		for (Map.Entry<Slot, ItemStack> entry : this.content.content.entrySet()) {
+			int index = (entry.getKey().row.getIndex() * 9) + entry.getKey().column.getIndex();
+
+			this.inventory.setItem(index, entry.getValue());
+		}
+
+		this.onOpen();
+	}
 
 }
