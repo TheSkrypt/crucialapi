@@ -24,9 +24,11 @@
 
 package net.skrypt.spigot.crucialapi.api.gui;
 
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
 /**
- * Abstract Player GUI class containing many methods to use and modify Bukkit Inventories as well as built-in event
- * listeners.
+ * A collection of player-specific GUI related methods.
  *
  * @author Lukas Frey
  * @version 1.0
@@ -34,6 +36,33 @@ package net.skrypt.spigot.crucialapi.api.gui;
  */
 public abstract class PlayerGUI extends GUI {
 
-	private static HashMap<>
+	/** Stores a reference to the player the GUI belongs to. */
+	private Player owner;
 
+	/**
+	 * Instantiates and sets up the GUI.
+	 *
+	 * @param plugin
+	 * @param size
+	 * @param player
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public PlayerGUI(JavaPlugin plugin, int size, Player player) {
+		super(plugin, size);
+		this.owner = player;
+	}
+
+	/**
+	 * Returns the player who owns the GUI (Note! This is not necessarily the player who opened the GUI.).
+	 *
+	 * @return The Player who owns the GUI.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public Player getOwner() {
+		return owner;
+	}
 }

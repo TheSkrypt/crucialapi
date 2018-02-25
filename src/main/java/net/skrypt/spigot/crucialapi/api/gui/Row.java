@@ -24,46 +24,55 @@
 
 package net.skrypt.spigot.crucialapi.api.gui;
 
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
 /**
- * A collection of player-specific GUI related methods.
+ * [Short Description Here]
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
-public abstract class BlockGUI extends GUI {
+public enum Row {
+	ONE(0), TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5);
 
-	/** Stores a reference to the Block the GUI belongs to. */
-	private Block owner;
+	private int index;
 
-	/**
-	 * Instantiates and sets up the GUI.
-	 *
-	 * @param plugin
-	 * @param size
-	 * @param block
-	 *
-	 * @author Lukas Frey
-	 * @since 1.0
-	 */
-	public BlockGUI(JavaPlugin plugin, int size, Block block) {
-		super(plugin, size);
-		this.owner = block;
+	Row(int index) {
+		this.index = index;
 	}
 
 	/**
-	 * Returns the block that owns the GUI.
+	 * Returns the index of the row.
 	 *
-	 * @return The Block that owns the GUI.
+	 * @return Index(0 - 5) of the row.
 	 *
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public Block getOwner() {
-		return owner;
+	public int getIndex() {
+		return this.index;
+	}
+
+	/**
+	 * Returns the first row.
+	 *
+	 * @return The first row (Row.ONE).
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public static Row first() {
+		return Row.ONE;
+	}
+
+	/**
+	 * Returns the last row.
+	 *
+	 * @return The last row (Row.SIX).
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public static Row last() {
+		return Row.SIX;
 	}
 }
