@@ -27,8 +27,7 @@ package net.skrypt.spigot.crucialapi.api.gui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.*;
 
 /**
  * An event that listens to inventory related events for the GUIs created with the API.
@@ -57,7 +56,11 @@ public class InventoryListener implements Listener {
 			return;
 
 		GUI gui = GUI.players.get(event.getWhoClicked().getUniqueId());
-		gui.onClick();
+		ClickAction action = new ClickAction(event);
+		if (event.getSlot() < Row.values().length * 9)
+			gui.onClick(action);
+		else
+			gui.getToolbar().onClick(action);
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class InventoryListener implements Listener {
 			return;
 
 		GUI gui = GUI.players.get(event.getPlayer().getUniqueId());
-		gui.onClose();
+		gui.onClose(event);
 
 		GUI.players.remove(event.getPlayer().getUniqueId());
 	}
