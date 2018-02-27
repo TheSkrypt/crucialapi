@@ -50,8 +50,8 @@ public abstract class BlockGUI extends GUI {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public BlockGUI(JavaPlugin plugin, int size, Block block) {
-		super(plugin, size);
+	public BlockGUI(JavaPlugin plugin, String name, Row size, Block block) {
+		super(plugin, name, size);
 		this.owner = block;
 	}
 

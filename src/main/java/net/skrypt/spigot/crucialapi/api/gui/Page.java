@@ -24,51 +24,67 @@
 
 package net.skrypt.spigot.crucialapi.api.gui;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
+import java.util.Objects;
 
 /**
- * A collection of GUI related methods.
+ * Represents a page in the GUI.
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
-public interface IGUI {
+public class Page {
+
+	protected int page;
+
+	private Page(int page) {
+		this.page = page;
+
+		if (this.page < 1)
+			this.page = 1;
+	}
+
+	public static Page get(int page) {
+		return new Page(page);
+	}
 
 	/**
-	 * Called each time the user opens a GUI.
+	 * Overrides the equals method to compare the values inside the classes rather than the classes themselves. Required
+	 * to compare 2 different instances of the class with exact same value (e.g. 2 different Slot instances with both
+	 * having set Row.ONE and Slot.ONE.
 	 *
-	 * @param content
-	 * 		Current content of the GUI.
+	 * @param obj
+	 * 		The other object to compare equality with..
 	 *
-	 * @author Lukas Frey
-	 * @since 1:0
-	 */
-	void setContent(Content content);
-
-	/**
-	 * Called each time the user opens a GUI.
-	 *
-	 * @author Lukas Frey
-	 * @since 1.0
-	 */
-	void onOpen();
-
-	/**
-	 * Called each time the user clicks while the GUI is opened (Can also be outside of the GUI.).
-	 *
-	 * @author Lukas Frey
-	 * @since 1.0
-	 */
-	void onClick(ClickAction click);
-
-	/**
-	 * Called each time the user closes a GUI.
+	 * @return True/false whether the objects are equal or not.
 	 *
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	void onClose(InventoryCloseEvent event);
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+
+		if (!(obj instanceof Page)) {
+			return false;
+		}
+		Page other = (Page) obj;
+		return page == other.page;
+	}
+
+	/**
+	 * Uses JDK7's Objects class to create a hash based off of the values in this class. This is required in order for
+	 * equality checks within HashMaps, Arrays and similar to work.
+	 *
+	 * @return hash code based off of the values in the class.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(page);
+	}
 
 }

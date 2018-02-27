@@ -49,8 +49,8 @@ public abstract class PlayerGUI extends GUI {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public PlayerGUI(JavaPlugin plugin, int size, Player player) {
-		super(plugin, size);
+	public PlayerGUI(JavaPlugin plugin, String name, Row size, Toolbar toolbar, Player player) {
+		super(plugin, name, size, toolbar);
 		this.owner = player;
 	}
 
