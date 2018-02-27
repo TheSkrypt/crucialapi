@@ -25,14 +25,14 @@
 package net.skrypt.spigot.crucialapi.api.gui;
 
 /**
- * [Short Description Here]
+ * Represents a row in the GUI.
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
 public enum Row {
-	ONE(0), TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5);
+	ONE(0), TWO(1), THREE(2), FOUR(3), FIVE(4);
 
 	private int index;
 
@@ -43,7 +43,7 @@ public enum Row {
 	/**
 	 * Returns the index of the row.
 	 *
-	 * @return Index(0 - 5) of the row.
+	 * @return Index(0 - 4) of the row.
 	 *
 	 * @author Lukas Frey
 	 * @since 1.0
@@ -73,6 +73,21 @@ public enum Row {
 	 * @since 1.0
 	 */
 	public static Row last() {
-		return Row.SIX;
+		return Row.FIVE;
+	}
+
+	public static Row fromIndex(int index) {
+		switch (index) {
+			case 1:
+				return Row.TWO;
+			case 2:
+				return Row.THREE;
+			case 3:
+				return Row.FOUR;
+			case 4:
+				return Row.FIVE;
+			default:
+				return Row.ONE;
+		}
 	}
 }

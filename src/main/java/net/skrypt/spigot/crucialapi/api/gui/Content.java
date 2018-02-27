@@ -26,7 +26,9 @@ package net.skrypt.spigot.crucialapi.api.gui;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class responsible for the content of the GUI.
@@ -37,10 +39,10 @@ import java.util.HashMap;
  */
 public class Content {
 
-	protected HashMap<Slot, ItemStack> content;
+	protected HashMap<Page, HashMap<Slot, ItemStack>> content;
 
 	/** Stores the size (number of rows) of the inventory. */
-	private int size;
+	private Row size;
 
 	/**
 	 * Instantiates and sets up the content class.
@@ -51,11 +53,50 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	Content(int size) {
+	Content(Row size) {
 		this.size = size;
 		this.content = new HashMap<>();
 	}
 
+	/**
+	 * Adds the item to the first empty slot in the GUI it finds.
+	 *
+	 * @param item
+	 * 		The Bukkit ItemStack you want to add.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
+	public void add(ItemStack item) {
+		boolean added = false;
+		for (Map.Entry<Page, HashMap<Slot, ItemStack>> page : content.entrySet()) {
+
+			if (added)
+				break;
+
+			if (page.getValue().size() >= Row.values().length * 9)
+				continue;
+
+			for (Row row : Row.values()) {
+				if (added)
+					break;
+
+				for (Column column : Column.values()) {
+					Slot slot = new Slot(row, column);
+
+					if (page.getValue().containsKey(slot))
+						continue;
+
+					set(item, page.getKey(), row, column);
+					added = true;
+					break;
+				}
+			}
+		}
+
+		if (!added)
+			set(item, Page.get(content.keySet().size() + 1), Row.ONE, Column.ONE);
+	}
 
 	/**
 	 * Sets every slot in the inventory to the specified item.
@@ -67,9 +108,13 @@ public class Content {
 	 * @since 1.0
 	 */
 	public void set(ItemStack item) {
-		for (Row row : Row.values()) {
-			set(item, row);
-		}
+		for (Page page : content.keySet())
+			set(item, page);
+	}
+
+	public void set(ItemStack item, Page page) {
+		for (Row row : Row.values())
+			set(item, page, row);
 	}
 
 	/**
@@ -85,12 +130,12 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public void set(ItemStack item, Row row, Row... rows) {
+	public void set(ItemStack item, Page page, Row row, Row... rows) {
 		for (Column column : Column.values())
-			set(item, row, column);
+			set(item, page, row, column);
 		for (Row r : rows)
 			for (Column column : Column.values())
-				set(item, r, column);
+				set(item, page, r, column);
 	}
 
 	/**
@@ -106,9 +151,9 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public void set(ItemStack item, Column column, Column... columns) {
+	public void set(ItemStack item, Page page, Column column, Column... columns) {
 		for (Row row : Row.values())
-			set(item, row, column, columns);
+			set(item, page, row, column, columns);
 	}
 
 	/**
@@ -126,10 +171,13 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public void set(ItemStack item, Row row, Column column, Column... columns) {
-		content.put(new Slot(row, column), item);
+	public void set(ItemStack item, Page page, Row row, Column column, Column... columns) {
+		HashMap<Slot, ItemStack> map = content.getOrDefault(page, new HashMap<>());
+		map.put(new Slot(row, column), item);
 		for (Column col : columns)
-			content.put(new Slot(row, col), item);
+			map.put(new Slot(row, col), item);
+
+		content.put(page, map);
 	}
 
 	/**
@@ -145,8 +193,8 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public boolean contains(Row row, Column column) {
-		return contains(new Slot(row, column));
+	public boolean contains(Page page, Row row, Column column) {
+		return contains(page, new Slot(row, column));
 	}
 
 	/**
@@ -160,8 +208,11 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public boolean contains(Slot slot) {
-		return content.containsKey(slot);
+	public boolean contains(Page page, Slot slot) {
+		if (content.containsKey(page))
+			return content.get(page).containsKey(slot);
+
+		return false;
 	}
 
 	/**
@@ -177,8 +228,8 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public ItemStack get(Row row, Column column) {
-		return get(new Slot(row, column));
+	public ItemStack get(Page page, Row row, Column column) {
+		return get(page, new Slot(row, column));
 	}
 
 	/**
@@ -192,9 +243,9 @@ public class Content {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	public ItemStack get(Slot slot) {
-		if (contains(slot))
-			return content.get(slot);
+	public ItemStack get(Page page, Slot slot) {
+		if (contains(page, slot))
+			return content.get(page).get(slot);
 
 		// TODO: Throw an exception or add some other handling method
 		return null;

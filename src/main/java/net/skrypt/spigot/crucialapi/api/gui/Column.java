@@ -25,7 +25,7 @@
 package net.skrypt.spigot.crucialapi.api.gui;
 
 /**
- * [Short Description Here]
+ * Represents a column in the GUI.
  *
  * @author Lukas Frey
  * @version 1.0
@@ -86,5 +86,28 @@ public enum Column {
 	 */
 	public static Column last() {
 		return Column.NINE;
+	}
+
+	public static Column fromIndex(int index) {
+		switch (index) {
+			case 1:
+				return Column.TWO;
+			case 2:
+				return Column.THREE;
+			case 3:
+				return Column.FOUR;
+			case 4:
+				return Column.FIVE;
+			case 5:
+				return Column.SIX;
+			case 6:
+				return Column.SEVEN;
+			case 7:
+				return Column.EIGHT;
+			case 8:
+				return Column.NINE;
+			default:
+				return Column.ONE;
+		}
 	}
 }

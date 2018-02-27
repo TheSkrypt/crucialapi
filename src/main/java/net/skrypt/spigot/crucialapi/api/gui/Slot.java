@@ -24,6 +24,8 @@
 
 package net.skrypt.spigot.crucialapi.api.gui;
 
+import org.bukkit.inventory.ItemStack;
+
 import java.util.Objects;
 
 /**
@@ -53,6 +55,22 @@ public class Slot {
 	public Slot(Row row, Column column) {
 		this.row = row;
 		this.column = column;
+	}
+
+	public void setRow(Row row) {
+		this.row = row;
+	}
+
+	public void setColumn(Column column) {
+		this.column = column;
+	}
+
+	public Row getRow() {
+		return this.row;
+	}
+
+	public Column getColumn() {
+		return this.column;
 	}
 
 	/**
@@ -92,5 +110,11 @@ public class Slot {
 	@Override
 	public int hashCode() {
 		return Objects.hash(row, column);
+	}
+
+	public static Slot fromIndex(int index) {
+		int rowIndex = (index / 9);
+		int columnIndex = index % 9;
+		return new Slot(Row.fromIndex(rowIndex), Column.fromIndex(columnIndex));
 	}
 }
