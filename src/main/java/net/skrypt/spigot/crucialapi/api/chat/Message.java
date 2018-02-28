@@ -96,6 +96,9 @@ public class Message {
 	}
 
 	public void send() {
+		if (players == null)
+			players = new ArrayList<>();
+
 		if (this.type == MessageType.PLAYER)
 			for (Player player : players)
 				for (MessageLine line : lines)
