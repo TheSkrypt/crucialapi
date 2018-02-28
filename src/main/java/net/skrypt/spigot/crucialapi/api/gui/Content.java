@@ -74,10 +74,13 @@ public class Content {
 			if (added)
 				break;
 
-			if (page.getValue().size() >= Row.values().length * 9)
+			if (page.getValue().size() >= (this.size.getIndex() + 1) * 9)
 				continue;
 
 			for (Row row : Row.values()) {
+				if (row.getIndex() > this.size.getIndex())
+					continue;
+
 				if (added)
 					break;
 
@@ -99,7 +102,7 @@ public class Content {
 	}
 
 	/**
-	 * Sets every slot in the inventory to the specified item.
+	 * Sets every slot on every page of the inventory to the specified item.
 	 *
 	 * @param item
 	 * 		The Bukkit ItemStack you want to set.
@@ -112,16 +115,33 @@ public class Content {
 			set(item, page);
 	}
 
+	/**
+	 * Sets every slot on the given page of the inventory to the specified item.
+	 *
+	 * @param item
+	 * 		The Bukkit ItemStack you ant to set.
+	 * @param page
+	 * 		The page you want to set the item to.
+	 *
+	 * @author Lukas Frey
+	 * @since 1.0
+	 */
 	public void set(ItemStack item, Page page) {
-		for (Row row : Row.values())
+		for (Row row : Row.values()) {
+			if (row.getIndex() > this.size.getIndex())
+				continue;
+
 			set(item, page, row);
+		}
 	}
 
 	/**
-	 * Sets every slot in the given row/s to the specified item.
+	 * Sets every slot in the given row/s on the given page to the specified item.
 	 *
 	 * @param item
 	 * 		The Bukkit ItemStack you want to set.
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param row
 	 * 		The row you want to set the item to.
 	 * @param rows
@@ -139,10 +159,12 @@ public class Content {
 	}
 
 	/**
-	 * Sets the slot in the given column/s to the specified item.
+	 * Sets the slot in the given column/s on the given page to the specified item.
 	 *
 	 * @param item
 	 * 		The Bukkit ItemStack you want to set.
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param column
 	 * 		The column you want to set the item to.
 	 * @param columns
@@ -152,15 +174,20 @@ public class Content {
 	 * @since 1.0
 	 */
 	public void set(ItemStack item, Page page, Column column, Column... columns) {
-		for (Row row : Row.values())
+		for (Row row : Row.values()) {
+			if (row.getIndex() > this.size.getIndex())
+				continue;
 			set(item, page, row, column, columns);
+		}
 	}
 
 	/**
-	 * Sets the slot in the given row and column/s to the specified item.
+	 * Sets the slot at the given row and column/s on the given page to the specified item.
 	 *
 	 * @param item
 	 * 		The Bukkit ItemStack you want to set.
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param row
 	 * 		The row you want to set the item to.
 	 * @param column
@@ -181,8 +208,10 @@ public class Content {
 	}
 
 	/**
-	 * Checks whether a slot at the specified row and column is set (Has an assigned item in it.).
+	 * Checks whether a slot at the specified row and column on the given page is set (Has an assigned item in it.).
 	 *
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param row
 	 * 		The row to check.
 	 * @param column
@@ -198,8 +227,10 @@ public class Content {
 	}
 
 	/**
-	 * Checks whether the slot is set (Has an assigned item in it.).
+	 * Checks whether the slot is set (Has an assigned item in it.) on the given page.
 	 *
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param slot
 	 * 		The slot to check.
 	 *
@@ -216,8 +247,11 @@ public class Content {
 	}
 
 	/**
-	 * Returns the ItemStack from the slot at the specified row and column. May return null if the slot isn't set.
+	 * Returns the ItemStack from the slot at the specified row and column on the given page. May return null if the
+	 * slot isn't set.
 	 *
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param row
 	 * 		The row to check.
 	 * @param column
@@ -233,8 +267,10 @@ public class Content {
 	}
 
 	/**
-	 * Returns the ItemStack from the specified slot. May return null if the slot isn't set.
+	 * Returns the ItemStack from the specified slot on the given page. May return null if the slot isn't set.
 	 *
+	 * @param page
+	 * 		The page you want to set the item to.
 	 * @param slot
 	 * 		The slot to check.
 	 *
