@@ -74,11 +74,11 @@ public abstract class GUI implements IGUI {
 	 * @author Lukas Frey
 	 * @since 1.0
 	 */
-	protected GUI(JavaPlugin plugin, String name, Row size) {
+	public GUI(JavaPlugin plugin, String name, Row size) {
 		init(plugin, name, size, new DefaultToolbar(this));
 	}
 
-	protected GUI(JavaPlugin plugin, String name, Row size, Toolbar toolbar) {
+	public GUI(JavaPlugin plugin, String name, Row size, Toolbar toolbar) {
 		init(plugin, name, size, toolbar);
 	}
 
@@ -149,7 +149,7 @@ public abstract class GUI implements IGUI {
 		}
 
 		for (Map.Entry<Column, ItemStack> entry : this.toolbarContent.content.entrySet()) {
-			int index = 9 + Row.last().getIndex() * 9 + entry.getKey().getIndex();
+			int index = 9 + this.size.getIndex() * 9 + entry.getKey().getIndex();
 
 			this.inventory.setItem(index, entry.getValue());
 		}
