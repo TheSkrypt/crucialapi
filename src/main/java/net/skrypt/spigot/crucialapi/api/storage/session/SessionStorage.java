@@ -28,7 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Handles the storage of primitive and other data types during the current session (server life time).
@@ -40,7 +39,7 @@ import java.util.UUID;
 public class SessionStorage {
 
 	private static HashMap<JavaPlugin, Storage> pluginStorage = new HashMap<>();
-	private static HashMap<UUID, Storage> playerStorage = new HashMap<>();
+	private static HashMap<Player, Storage> playerStorage = new HashMap<>();
 
 	/**
 	 * Returns the plugin's session storage.
