@@ -22,24 +22,19 @@
  * SOFTWARE.
  */
 
-package net.skrypt.spigot.crucialapi.api.storage;
-
-import org.bukkit.plugin.java.JavaPlugin;
+package net.skrypt.spigot.crucialapi.api.storage.session;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Handles the storage of primitive and other data types during the current session (server life time).
+ * [Short Description Here]
  *
  * @author Lukas Frey
  * @version 1.0
  * @since 1.0
  */
-public class SessionStorage {
-
-	private static HashMap<JavaPlugin, SessionStorage> all = new HashMap<>();
-
+public class Storage {
 	private HashMap<String, Byte> bytes;
 	private HashMap<String, Short> shorts;
 	private HashMap<String, Integer> ints;
@@ -51,7 +46,7 @@ public class SessionStorage {
 	private HashMap<String, String> strings;
 	private HashMap<String, UUID> uuids;
 
-	private SessionStorage() {
+	protected Storage() {
 		this.bytes = new HashMap<>();
 		this.shorts = new HashMap<>();
 		this.ints = new HashMap<>();
@@ -733,20 +728,4 @@ public class SessionStorage {
 		else if (!uuids.containsKey(key))
 			uuids.put(key, value);
 	}
-
-	/**
-	 * Returns the plugin's SessionStorage instance.
-	 *
-	 * @param plugin
-	 * 		The plugin you want to access the storage of.
-	 *
-	 * @return The session storage of the plugin.
-	 *
-	 * @author Lukas Frey
-	 * @since 1.0
-	 */
-	public static SessionStorage get(JavaPlugin plugin) {
-		return all.getOrDefault(plugin, new SessionStorage());
-	}
-
 }
