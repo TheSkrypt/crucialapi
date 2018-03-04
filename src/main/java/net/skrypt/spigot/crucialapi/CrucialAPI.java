@@ -25,8 +25,14 @@
 package net.skrypt.spigot.crucialapi;
 
 import net.skrypt.spigot.crucialapi.api.chat.*;
+import net.skrypt.spigot.crucialapi.api.gui.InventoryListener;
+import net.skrypt.spigot.crucialapi.api.storage.Configuration;
+import net.skrypt.spigot.crucialapi.api.storage.JSON;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * This is the main class of the Crucial API. It is only used to activate and set up the API.
@@ -55,6 +61,10 @@ public class CrucialAPI extends JavaPlugin {
 		                                 .addText(
 				                                 "If not, you most likely installed the API as a dependency for another plugin. To avoid any trouble, it is best to keep the API installed. However, if you are absolutely sure you do not need it, you can safely remove it. The API alone is of no use."));
 		message.setType(MessageType.CONSOLE).send();
+
+		getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+
+		Configuration.register(this);
 	}
 
 	/**
@@ -71,4 +81,21 @@ public class CrucialAPI extends JavaPlugin {
 		message.setType(MessageType.CONSOLE).send();
 	}
 
+	public static Class<?> getCraftbukkitClass(String classString) throws ClassNotFoundException {
+		return getReflectedClass("org.bukkit.craftbukkit", classString);
+	}
+
+	public static Class<?> getMinecraftClass(String classString) throws ClassNotFoundException {
+		return getReflectedClass("net.minecraft.server", classString);
+	}
+
+	private static Class<?> getReflectedClass(String packageString, String classString) throws ClassNotFoundException {
+		String name = packageString + "." + getVersion() + "." + classString;
+		Class<?> cbClass = Class.forName(name);
+		return cbClass;
+	}
+
+	public static String getVersion() {
+		return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+	}
 }
