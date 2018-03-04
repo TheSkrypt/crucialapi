@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "type": "TEXT",
+      "id": "readme",
+      "origin": {
+        "directory": "",
+        "file": "README"
+      },
+      "target": {
+        "directory": "",
+        "file": "README"
+      }
+    }
+  ]
+}
