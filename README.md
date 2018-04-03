@@ -1,6 +1,6 @@
 # Crucial API
-![SonarQube Tech Debt](https://img.shields.io/sonar/https/ccq.skrypt.net/crucialapi/tech_debt.svg)
-[![SonarQube Coverage](https://img.shields.io/sonar/http/ccq.skrypt.net/crucialapi/coverage.svg)](https://ccq.skrypt.net/dashboard?id=crucialapi)
+![SonarQube Tech Debt](https://img.shields.io/sonar/https/ccq.skrypt.net/crucialapi/tech_debt.svg?style=for-the-badge)
+![SonarQube Coverage](https://img.shields.io/sonar/http/ccq.skrypt.net/crucialapi/coverage.svg?style=for-the-badge)
 
 Note - this is a continuation of the SkryptCoreAPI. It was renamed to a more suitable name, as the API is not intented for use by my plugins **only** anymore.
 
